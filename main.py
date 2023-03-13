@@ -20,16 +20,25 @@ print("This will be the generic letter that we are sending:\n\n"
       "The [family name]'s\" \n")
 
 print("So let's start filling it out!")
-childs_name = input("First, what is your child's first name? ")
+
+childs_name= input("First, what is your child's first name? ")
 family_name = input("What is your family's last name? ")
+filepath = input("What is the filepath of your list of recipients? ") # For Testing: Input/Names/recipients.txt
 
-# TODO: see if I can figure out how to upload files, or just have them point where the list of names is in their system.
+recipients = open(filepath, 'r')
+contents = recipients.readlines()
+i = 0
 
-# TODO: Create a letter using starting_letter.txt
-
-# TODO: for each name in recipients.txt, replace the [name], [child's name], and [family name] placeholders.
-
-# TODO: Save the letters in the folder "ReadyToSend"
+for recipient in contents:
+      name = contents[i]
+      name = name.strip()
+      replacements = {"[child's name]": childs_name, "[family name]": family_name, "[name]": name}
+      with open('Input/Letters/starting_letter.txt', 'r') as infile, open('Output/ReadyToSend/' + name + '.txt', 'w') as outfile:
+            for line in infile:
+                  for source, target in replacements.items():
+                        line = line.replace(source, target)
+                  outfile.write(line)
+      i += 1
 
 
 
